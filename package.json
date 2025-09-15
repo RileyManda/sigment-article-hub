@@ -13,7 +13,10 @@
     "serve:prod:unix": "NODE_ENV=production node app.js",
     "server": "node server/index.js",
     "server:dev": "NODE_ENV=development node server/index.js",
-    "server:watch": "nodemon server/index.js"
+    "server:watch": "nodemon server/index.js",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run"
   },
   "type": "module",
   "dependencies": {
@@ -26,10 +29,14 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^24.0.13",
+    "@vitest/ui": "^3.2.4",
+    "jsdom": "^27.0.0",
     "nodemon": "^3.0.1",
     "serve": "^14.2.4",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4"
   }
 }
