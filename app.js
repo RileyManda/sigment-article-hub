@@ -12,21 +12,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-
-// Add middleware for JSON parsing
 app.use(express.json());
-
-// Add CORS headers for development
+app.use('/api', apiRoutes);
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
-
-// Add API routes
-app.use('/api', apiRoutes);
-
-
 const PORT = 3003; // Use port 3003 for API only
 
 app.listen(PORT, () => {
