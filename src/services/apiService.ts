@@ -1,6 +1,6 @@
 import type { Article } from "../types";
 
-const API_BASE_URL = "http://localhost:3003/api";
+const API_BASE_URL = (import.meta as any).env?.VITE_API_BASE_URL;
 export class ApiArticleService {
   // GET  - Get all published articles
   static async fetchAllPublishedArticles(): Promise<Article[]> {
