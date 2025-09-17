@@ -1,19 +1,14 @@
-import { NavigateTo } from 'sigment';
-
-function About(props : any): HTMLElement  {
-
-  function handleNavigate() {
-    NavigateTo("/")
-      .then(() => console.log("Navigated to about"))
-      .catch(console.error);
-  }
-
+function About(props: any): HTMLElement {
   return div(
-    p(`About Page`),
-    props.id && div(`the param id is  ${props.id}`),
-    div(button({ onClick: () => handleNavigate() }, "back"))
-  );
+    // Header
+    div(
+      h1("🏠 Welcome to Sigment Article Hub"),
+      p("A modern blogging platform built with Sigment framework")
+    ),
 
+    // Content
+    div({ class: "about-content" })
+  );
 }
 
 export default About;
