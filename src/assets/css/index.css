@@ -1,1 +1,4 @@
+@import "./variables.css";
 @import "./main.css";
+@import "./header.css";
+@import "./loginForm.css";
