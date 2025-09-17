@@ -1,28 +1,33 @@
-import {MyApp,mount} from  "sigment"
-import Header from "./components/Header"
-import Body from "./components/Body"
-import Footer from "./components/Footer"
-import './assets/css/index.css'
-import Routes from "./router/Routes"
+import { MyApp, mount } from "sigment";
+import "./components/sigments/sigments";
+import Header from "./components/Header";
+import Body from "./components/Body";
+import Footer from "./components/Footer";
+import LoginForm from "./components/LoginForm";
+import { showLoginForm } from "./components/global/globalState";
+import "./assets/css/index.css";
+import Routes from "./router/Routes";
 
 MyApp.cleanHtml(true); //in development use false in production use true
 MyApp.setMaxCacheSize(50); // cache 50 components
-MyApp.setRoute(Routes);  // set the route map
+MyApp.setRoute(Routes); // set the route map
 
-async function Main() {  
+async function Main() {
+  const bodyContent = await Body();
 
+  const app = div(Header(), () => {
+    const shouldShowLogin = showLoginForm();
 
-     const app = fragment(
-      Header(),
-        await Body(),
-      Footer()
-    );
+    if (shouldShowLogin) {
+      return LoginForm();
+    } else {
+      return div(bodyContent, Footer());
+    }
+  });
 
-    mount("root",app);
-
+  mount("root", app);
 }
 
- Main();
-
+Main();
 
 export default Main;
