@@ -13,7 +13,8 @@ export interface AuthResponse
   }> {}
 
 export class AuthService {
-  private static readonly API_BASE_URL = "http://localhost:3003/api";
+  private static readonly API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:3003/api";
 
   static async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
@@ -43,7 +44,6 @@ export class AuthService {
           GlobalKeys.showLoginForm
         );
 
-        // Only update if values have changed to avoid unnecessary re-renders
         if (!isAuthenticated()) {
           setIsAuthenticated(true as any);
         }
@@ -105,6 +105,8 @@ export class AuthService {
     );
     const [user, setUser] = signal(GlobalKeys.user);
     const [authToken, setAuthToken] = signal(GlobalKeys.authToken);
+
+    // Only update if values have changed to avoid unnecessary re-renders
     if (isAuthenticated()) {
       setIsAuthenticated(false as any);
     }
