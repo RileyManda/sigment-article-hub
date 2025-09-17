@@ -270,18 +270,14 @@ export class ArticleService {
   }
 
   static async incrementViews(id: string): Promise<void> {
-    try {
-      await prisma.article.update({
-        where: { id },
-        data: {
-          views: {
-            increment: 1,
-          },
+    await prisma.article.update({
+      where: { id },
+      data: {
+        views: {
+          increment: 1,
         },
-      });
-    } catch (error) {
-      console.error("Error incrementing article views:", error);
-    }
+      },
+    });
   }
 }
 
@@ -489,7 +485,7 @@ export class TagService {
       return true;
     } catch (error) {
       if ((error as any).code === "P2025") {
-        return false; 
+        return false;
       }
       throw new Error("Failed to delete tag");
     }
