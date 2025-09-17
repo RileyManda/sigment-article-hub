@@ -5,12 +5,140 @@ import {
   CategoryService,
   TagService,
 } from "../src/services/database";
+// Mock users with database IDs
+const mockUsers = [
+  {
+    id: "cmflpj7mu0000ic9mqc3qwjm2",
+    username: "johndoe",
+    email: "john@example.com",
+    firstName: "John",
+    lastName: "Doe",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    bio: "Full-stack developer passionate about modern web technologies.",
+  },
+  {
+    id: "cmflpj82d0002ic9mvngkbovf",
+    username: "mikejohnson",
+    email: "mike@example.com",
+    firstName: "Mike",
+    lastName: "Johnson",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    bio: "DevOps engineer and cloud architecture specialist.",
+  },
+  {
+    id: "cmflpj7x60001ic9mtwn488g8",
+    username: "janesmith",
+    email: "jane@example.com",
+    firstName: "Jane",
+    lastName: "Smith",
+    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    bio: "UI/UX designer and frontend enthusiast.",
+  },
+];
 
 const router = express.Router();
 
 router.use(cors());
 
 router.use(express.json());
+
+// =================== AUTHENTICATION API ===================
+
+// POST /api/auth/login - Login user
+router.post("/auth/login", async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        error: "Email and password are required",
+      });
+    }
+    const user = mockUsers.find(u => u.email === email);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        error: "Invalid credentials",
+      });
+    }
+    if (password !== "password123") {
+      return res.status(401).json({
+        success: false,
+        error: "Invalid credentials",
+      });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          avatar: user.avatar,
+          bio: user.bio,
+        },
+        token: `mock-token-${user.id}`, // Mock JWT token
+      },
+      message: "Login successful",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: "Login failed",
+      message: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+});
+
+// GET /api/auth/me - Get current user
+router.get("/auth/me", async (req: Request, res: Response) => {
+  try {
+    const token = req.headers.authorization?.replace("Bearer ", "");
+
+    if (!token || !token.startsWith("mock-token-")) {
+      return res.status(401).json({
+        success: false,
+        error: "Invalid or missing token",
+      });
+    }
+
+    const userId = token.replace("mock-token-", "");
+    const user = mockUsers.find(u => u.id === userId);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        error: "User not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          avatar: user.avatar,
+          bio: user.bio,
+        },
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: "Failed to get user",
+      message: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+});
 
 // =================== ARTICLES API ===================
 
@@ -64,21 +192,43 @@ router.get("/articles/:slug", async (req: Request, res: Response) => {
 // POST /api/articles - Create new article
 router.post("/articles", async (req: Request, res: Response) => {
   try {
+    // Check authentication
+    const token = req.headers.authorization?.replace("Bearer ", "");
+
+    if (!token || !token.startsWith("mock-token-")) {
+      return res.status(401).json({
+        success: false,
+        error: "Authentication required",
+      });
+    }
+
+    const userId = token.replace("mock-token-", "");
+    const user = mockUsers.find((u) => u.id === userId);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        error: "User not found",
+      });
+    }
+
     const {
       title,
       content,
       excerpt,
       categoryId,
-      hashtags,
+      tagIds,
       coverImage,
       status = "DRAFT",
     } = req.body;
+
     if (!title || !content) {
       return res.status(400).json({
         success: false,
         error: "Missing required fields: title, content",
       });
     }
+
     const articleExcerpt = excerpt || content.substring(0, 150) + "...";
 
     const article = await ArticleService.create({
@@ -87,9 +237,9 @@ router.post("/articles", async (req: Request, res: Response) => {
       excerpt: articleExcerpt,
       coverImage: coverImage || null,
       categoryId: categoryId || null,
-      hashtags: hashtags || [],
+      tagIds: tagIds || [],
       status,
-      authorId: "cmflpj7mu0000ic9mqc3qwjm2",
+      authorId: user.id, // Use authenticated user's ID
     });
 
     res.status(201).json({
