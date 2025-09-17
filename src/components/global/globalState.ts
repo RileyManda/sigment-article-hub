@@ -1,17 +1,7 @@
-import { createGlobalSignal } from "sigment"
-
-createGlobalSignal('userName', '');
-createGlobalSignal('userMail', '');
-createGlobalSignal('isAuthenticated', false);
-createGlobalSignal('user', null);
-createGlobalSignal('authToken', '');
-createGlobalSignal('showLoginForm', false);
-
-export const GlobalKeys = {
-  userName: 'userName',
-  userMail: 'userMail',
-  isAuthenticated: 'isAuthenticated',
-  user: 'user',
-  authToken: 'authToken',
-  showLoginForm: 'showLoginForm'
-};
+import { signal } from "sigment";
+export const [userName, setUserName] = signal("");
+export const [userMail, setUserMail] = signal("");
+export const [isAuthenticated, setIsAuthenticated] = signal(false);
+export const [user, setUser] = signal(null);
+export const [authToken, setAuthToken] = signal("");
+export const [showLoginForm, setShowLoginForm] = signal(false);
