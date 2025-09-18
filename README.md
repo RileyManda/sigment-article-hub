@@ -1,100 +1,141 @@
-# Sigment App
+# Sigment Articles Hub
 
-[![npm version](https://img.shields.io/npm/v/create-sigment-app?color=blue\&label=npm%20package)](https://www.npmjs.com/package/create-sigment-app)
-[![npm downloads](https://img.shields.io/npm/dm/create-sigment-app?color=green\&label=npm%20downloads)](https://www.npmjs.com/package/create-sigment-app)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/sigmentjs/sigment/ci.yml?branch=main\&label=build\&color=brightgreen)](https://github.com/sigmentjs?tab=repositories)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-
-A lightweight frontend starter built with **Sigment**, powered by **Vite** and written in **TypeScript**. Easily extendable with Express.js for backend needs.
-
----
+A modern article management platform built with **Sigment**, featuring user authentication, article creation, and a responsive design system.
 
 ## ✨ Features
 
 * 🯉 **Sigment** — Fine-grained, signals-based reactivity
 * ⚡ **Vite** — Fast dev server and production bundling
 * 📜 **TypeScript** — Type-safe development
-* 🌿 **Express-ready** — Optional backend support
+* 🗄️ **PostgreSQL** — Robust database with Prisma ORM
+* 🔐 **Authentication** — JWT-based user authentication
+* 📝 **Article Management** — Create, read, and manage articles
+* 🎨 **Responsive Design** — Modern UI with custom design system
+* 🧪 **Testing** — Vitest with comprehensive test coverage
 
----
+## 🚀 Quick Start
 
-## 🌟 Why Sigment?
+### Prerequisites
+- **Node.js**: >= 18.0.0
+- **pnpm**: >= 8.0.0
+- **PostgreSQL**: Database server
 
-> Elegant, zero-JSX reactivity with less than 5KB runtime.
+### Installation
 
-### 🔧 Example Sigment Component
-
-```ts
-import { signal } from 'sigment';
-
-function Counter(): HTMLElement {
-  const [count, setCount] = signal(0);
-
-  return div({ id: "counter" },
-    h2('Sigment Reactive Framework'),
-    h3('Counter example'),
-    button({ onClick: () => setCount(count() + 1) }, 'Increment'),
-    p(() => `Count is: ${count()}`)
-  );
-}
-
-export default Counter;
-```
-
-✅ Reactive DX: Signals-based reactivity
-✅ Tiny footprint: <5kb runtime
-✅ Zero JSX: Pure JavaScript templates
-
----
-
-## ⚡ Quick Start
-
-### Option 1: Create a New App Instantly with `npx`
-
+1. **Clone the repository**
 ```bash
-npx create-sigment-app my-app
-cd my-app
-npm run dev
+git clone <repository-url>
+cd sigment-article-hub
 ```
 
-### Option 2: Clone the Starter Template
-
+2. **Install dependencies**
 ```bash
-git clone https://github.com/sigmentjs/basic-sigment-typescript-vite.git
-cd basic-sigment-typescript-vite
-npm install
-npm run dev
+pnpm install
 ```
 
-### Build for production
-
+3. **Setup environment**
+Create a `.env` file:
 ```bash
-npm run build
+DATABASE_URL="postgresql://username:password@localhost:5432/sigment_articles"
+JWT_SECRET="your-super-secret-jwt-key-here"
+PORT=3001
+NODE_ENV=development
 ```
 
-### Preview production build locally
-
+4. **Setup database**
 ```bash
-npm run preview
+pnpm run db:generate
+pnpm run db:migrate
+pnpm run db:seed
 ```
 
----
+## 🛠️ Development
 
-## 🖼️ Demo
+### Start Both Server and UI
+```bash
+pnpm run dev:all
+```
 
- [try on StackBlitz](https://stackblitz.com/github/sigmentjs/basic-sigment-typescript-vite?file=README.md) 
- or 
- [CodeSandbox](https://codesandbox.io/p/github/sigmentjs/basic-sigment-typescript-vite/main).
- or 
- [bolt](https://bolt.new/github/sigmentjs/basic-sigment-typescript-vit).
+### Individual Commands
 
----
+**Frontend (UI)**
+```bash
+pnpm run dev
+```
+
+**Backend (Server)**
+```bash
+pnpm run server:watch
+```
+
+**Production**
+```bash
+pnpm run build
+pnpm run serve:prod
+```
+
+## 🧪 Testing
+
+### Run Tests
+```bash
+npx vitest
+```
+
+### Test Commands
+```bash
+# Run tests once
+pnpm run test:run
+
+# Run tests with UI
+pnpm run test:ui
+```
+
+## 🗄️ Database
+
+### Prisma Commands
+```bash
+# Generate client
+pnpm run db:generate
+
+# Run migrations
+pnpm run db:migrate
+
+# Seed database
+pnpm run db:seed
+
+# Open Prisma Studio
+pnpm run db:studio
+
+# Reset database
+pnpm run db:reset
+```
+
+## 📁 Project Structure
+
+```
+sigment-article-hub/
+├── src/
+│   ├── components/          # Sigment components
+│   ├── assets/css/         # Stylesheets
+│   ├── services/           # API and business logic
+│   ├── types/              # TypeScript definitions
+│   └── router/             # Client-side routing
+├── prisma/                 # Database schema and migrations
+├── api/                    # Express.js API routes
+└── app.ts                  # Server entry point
+```
+
+## 🌐 URLs
+
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:3001
+- **Prisma Studio**: http://localhost:5555
 
 ## 📚 Documentation
 
-* [Official Sigment Docs](https://sigment.dev)
-
----
+- [Sigment Framework](https://sigment.dev)
+- [Prisma Documentation](https://www.prisma.io/docs)
+- [Vitest Testing](https://vitest.dev)
 
 ## 📄 License
 
