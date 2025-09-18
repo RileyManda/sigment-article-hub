@@ -1,4 +1,4 @@
-import { NavigateTo, signal, createEffect } from "sigment";
+import { signal, createEffect } from "sigment";
 import { ApiArticleService } from "../services/apiService";
 import { refreshArticles } from "./global/globalState";
 import type { Article } from "../types";
@@ -31,21 +31,12 @@ function Articles(props: any): HTMLElement {
     loadArticles();
   });
 
-  function handleNavigate() {
-    NavigateTo("/").catch(() => { });
-  }
-
   function formatDate(date: Date): string {
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
     });
-  }
-
-  function truncateContent(content: string, maxLength: number = 150): string {
-    if (content.length <= maxLength) return content;
-    return content.substring(0, maxLength) + "...";
   }
 
   return div(
@@ -56,9 +47,13 @@ function Articles(props: any): HTMLElement {
       { class: "articles-header" },
       h1("📚 Articles"),
       p("Discover insights about web development, programming, and technology"),
-      () => !loading() && !error() && articles().length > 0
-        ? div({ class: "articles-count" }, `${articles().length} published articles`)
-        : null
+      () =>
+        !loading() && !error() && articles().length > 0
+          ? div(
+              { class: "articles-count" },
+              `${articles().length} published articles`
+            )
+          : null
     ),
 
     // Loading state
@@ -81,11 +76,11 @@ function Articles(props: any): HTMLElement {
 
             // Cover image
             article.coverImage &&
-            img({
-              src: article.coverImage,
-              alt: article.title,
-              class: "article-cover",
-            }),
+              img({
+                src: article.coverImage,
+                alt: article.title,
+                class: "article-cover",
+              }),
 
             // Article content
             div(
@@ -110,7 +105,7 @@ function Articles(props: any): HTMLElement {
               h2({ class: "article-title" }, article.title),
 
               // Excerpt
-              p({ class: "article-excerpt" }, truncateContent(article.excerpt)),
+              p({ class: "article-excerpt truncate-4" }, article.excerpt),
 
               // Author and stats
               div(
@@ -118,11 +113,11 @@ function Articles(props: any): HTMLElement {
                 div(
                   { class: "author-info" },
                   article.author.avatar &&
-                  img({
-                    src: article.author.avatar,
-                    alt: article.author.firstName,
-                    class: "author-avatar",
-                  }),
+                    img({
+                      src: article.author.avatar,
+                      alt: article.author.firstName,
+                      class: "author-avatar",
+                    }),
                   span(
                     { class: "author-name" },
                     `${article.author.firstName} ${article.author.lastName}`
