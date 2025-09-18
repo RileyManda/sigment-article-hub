@@ -7,7 +7,7 @@ function Footer(): HTMLElement {
         { class: "footer-main" },
         div(
           { class: "footer-brand" },
-          h3("Sigment Articles Hub"),
+          h3("Sigment Article Hub"),
           p("Discover, create, and share amazing articles with the community.")
         ),
         div(
@@ -32,7 +32,7 @@ function Footer(): HTMLElement {
         { class: "footer-bottom" },
         div(
           { class: "footer-copyright" },
-          "© 2025 Sigment Articles Hub. Built with curiosity for ",
+          "© 2025 Sigment Article Hub. Built with curiosity for ",
           a(
             {
               href: "https://sigment.dev",
