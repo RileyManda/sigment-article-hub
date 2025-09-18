@@ -1,18 +1,27 @@
 import { NavigateTo } from "sigment";
 import { AuthService } from "../services/authService";
-import { isAuthenticated, user, setShowLoginForm } from "./global/globalState";
+import {
+  isAuthenticated,
+  user,
+  setShowLoginForm,
+  setShowCreateArticleForm,
+} from "./global/globalState";
 import "../assets/css/header.css";
 
 function Header(): HTMLElement {
-
   function handleAboutClick(e: Event) {
     e.preventDefault();
-    NavigateTo("/").catch(() => { });
+    NavigateTo("/").catch(() => {});
   }
 
   function handleArticlesClick(e: Event) {
     e.preventDefault();
-    NavigateTo("/articles").catch(() => { });
+    NavigateTo("/articles").catch(() => {});
+  }
+
+  function handleCreateArticleClick(e: Event) {
+    e.preventDefault();
+    setShowCreateArticleForm(true);
   }
 
   function handleLoginClick(e: Event) {
@@ -53,7 +62,7 @@ function Header(): HTMLElement {
       ),
       div(
         { class: "header-right" },
-        // Use function child for reactive authentication state
+        // Function child for reactive authentication state
         () => {
           const authState = isAuthenticated();
           const userData = user() as any;
@@ -69,6 +78,10 @@ function Header(): HTMLElement {
                   class: "user-avatar",
                 }),
                 span({ class: "user-name" }, userData?.firstName || "User")
+              ),
+              button(
+                { class: "btn btn-primary", onClick: handleCreateArticleClick },
+                "✍️ Create Article"
               ),
               button(
                 { class: "btn btn-danger", onClick: handleLogoutClick },
