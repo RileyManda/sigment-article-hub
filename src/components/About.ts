@@ -5,7 +5,7 @@ function About(props: any): HTMLElement {
       { class: "about-hero" },
       div(
         { class: "about-hero-content" },
-        h1({ class: "about-title" }, "Welcome to Sigment Articles Hub"),
+        h1({ class: "about-title" }, "Welcome to Sigment Article Hub"),
         p(
           { class: "about-description" },
           "A modern, intuitive platform for discovering, creating, and sharing amazing articles. Built with the Sigment framework, we provide a seamless experience for writers and readers alike."
