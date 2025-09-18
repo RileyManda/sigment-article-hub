@@ -5,7 +5,10 @@ import Body from "./components/Body";
 import Footer from "./components/Footer";
 import LoginForm from "./components/LoginForm";
 import CreateArticleForm from "./components/CreateArticleForm";
-import { showLoginForm, showCreateArticleForm } from "./components/global/globalState";
+import {
+  showLoginForm,
+  showCreateArticleForm,
+} from "./components/global/globalState";
 import { AuthService } from "./services/authService";
 import "./assets/css/index.css";
 import Routes from "./router/Routes";
@@ -20,18 +23,23 @@ async function Main() {
 
   const bodyContent = await Body();
 
-  const app = div(Header(), () => {
-    const shouldShowLogin = showLoginForm();
-    const shouldShowCreateArticle = showCreateArticleForm();
+  const app = div(
+    { class: "app-container" },
+    Header(),
+    () => {
+      const shouldShowLogin = showLoginForm();
+      const shouldShowCreateArticle = showCreateArticleForm();
 
-    if (shouldShowLogin) {
-      return LoginForm();
-    } else if (shouldShowCreateArticle) {
-      return CreateArticleForm();
-    } else {
-      return div(bodyContent, Footer());
-    }
-  });
+      if (shouldShowLogin) {
+        return LoginForm();
+      } else if (shouldShowCreateArticle) {
+        return CreateArticleForm();
+      } else {
+        return bodyContent;
+      }
+    },
+    Footer()
+  );
 
   mount("root", app);
 }
