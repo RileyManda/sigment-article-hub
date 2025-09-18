@@ -33,6 +33,16 @@ function LoginForm(): HTMLElement {
     setShowLoginForm(false);
   }
 
+  function handleEmailInput(e: Event) {
+    const target = e.target as HTMLInputElement;
+    setEmail(target.value);
+  }
+
+  function handlePasswordInput(e: Event) {
+    const target = e.target as HTMLInputElement;
+    setPassword(target.value);
+  }
+
   return div(
     {
       class: "login-form-page",
@@ -61,9 +71,7 @@ function LoginForm(): HTMLElement {
           input({
             type: "email",
             id: "email",
-            value: email(),
-            onInput: (e: Event) =>
-              setEmail((e.target as HTMLInputElement).value),
+            onInput: handleEmailInput,
             required: true,
             placeholder: "Enter your email",
           })
@@ -74,9 +82,7 @@ function LoginForm(): HTMLElement {
           input({
             type: "password",
             id: "password",
-            value: password(),
-            onInput: (e: Event) =>
-              setPassword((e.target as HTMLInputElement).value),
+            onInput: handlePasswordInput,
             required: true,
             placeholder: "Enter your password",
           })
