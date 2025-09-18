@@ -125,10 +125,10 @@ export class ArticleService {
           publishedAt: data.status === "PUBLISHED" ? new Date() : null,
           tags: finalTagIds?.length
             ? {
-              create: finalTagIds.map((tagId: string) => ({
-                tag: { connect: { id: tagId } },
-              })),
-            }
+                create: finalTagIds.map((tagId: string) => ({
+                  tag: { connect: { id: tagId } },
+                })),
+              }
             : undefined,
         },
         include: {
@@ -178,11 +178,11 @@ export class ArticleService {
           ...articleData,
           tags: finalTagIds
             ? {
-              deleteMany: {},
-              create: finalTagIds.map((tagId: string) => ({
-                tag: { connect: { id: tagId } },
-              })),
-            }
+                deleteMany: {},
+                create: finalTagIds.map((tagId: string) => ({
+                  tag: { connect: { id: tagId } },
+                })),
+              }
             : undefined,
         },
         include: {
@@ -360,6 +360,58 @@ export class CategoryService {
         return false;
       }
       throw new Error("Failed to delete category");
+    }
+  }
+}
+
+export class UserService {
+  static async findByEmail(email: string): Promise<User | null> {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+    return user as User | null;
+  }
+
+  static async findById(id: string): Promise<User | null> {
+    const user = await prisma.user.findUnique({
+      where: { id },
+    });
+    return user as User | null;
+  }
+
+  static async validateCredentials(
+    email: string,
+    password: string
+  ): Promise<User | null> {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { email },
+      });
+
+      if (!user) {
+        return null;
+      }
+
+      // For demo purposes, we'll use a simple password check
+      // In production, you'd use proper password hashing (bcrypt, etc.)
+      if (user.password === password) {
+        return user as User;
+      }
+
+      return null;
+    } catch (error) {
+      throw new Error("Failed to validate credentials");
+    }
+  }
+
+  static async getAll(): Promise<User[]> {
+    try {
+      const users = await prisma.user.findMany({
+        orderBy: { createdAt: "desc" },
+      });
+      return users as User[];
+    } catch (error) {
+      throw new Error("Failed to fetch users");
     }
   }
 }
