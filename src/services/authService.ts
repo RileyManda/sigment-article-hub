@@ -1,4 +1,10 @@
-import { GlobalKeys } from "../components/global/globalState";
+import {
+  setIsAuthenticated,
+  setUser,
+  authToken,
+  setAuthToken,
+  setShowLoginForm,
+} from "../components/global/globalState";
 import { User, ApiResponse } from "../types";
 
 export interface LoginCredentials {
@@ -33,94 +39,52 @@ export class AuthService {
       const data: AuthResponse = await response.json();
 
       if (data.success && data.data) {
-        // Update global state
-        const { signal } = await import("sigment");
-        const [isAuthenticated, setIsAuthenticated] = signal(
-          GlobalKeys.isAuthenticated
-        );
-        const [user, setUser] = signal(GlobalKeys.user);
-        const [authToken, setAuthToken] = signal(GlobalKeys.authToken);
-        const [showLoginForm, setShowLoginForm] = signal(
-          GlobalKeys.showLoginForm
-        );
-
-        if (!isAuthenticated()) {
-          setIsAuthenticated(true as any);
-        }
-        if (!user() || (user() as any)?.id !== data.data.user.id) {
-          setUser(data.data.user as any);
-        }
-        if (authToken() !== data.data.token) {
-          setAuthToken(data.data.token);
-        }
-        if (showLoginForm()) {
-          setShowLoginForm(false as any);
-        }
+        // Update global state using imported signals
+        setIsAuthenticated(true);
+        setUser(data.data.user as any);
+        setAuthToken(data.data.token);
+        setShowLoginForm(false);
       }
 
       return data;
     } catch (error) {
-      console.error("Login error:", error);
       throw new Error("Failed to login. Please check your credentials.");
     }
   }
 
   static async getCurrentUser(): Promise<User | null> {
-    try {
-      const { signal } = await import("sigment");
-      const [authToken] = signal(GlobalKeys.authToken);
-
-      if (!authToken()) {
-        return null;
-      }
-
-      const response = await fetch(`${this.API_BASE_URL}/auth/me`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${authToken()}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (data.success && data.data) {
-        return data.data.user;
-      }
-
-      return null;
-    } catch (error) {
-      console.error("Get current user error:", error);
+    if (!authToken()) {
       return null;
     }
+
+    const response = await fetch(`${this.API_BASE_URL}/auth/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${authToken()}`,
+      },
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = await response.json();
+
+    if (data.success && data.data) {
+      return data.data.user;
+    }
+
+    return null;
   }
 
   static async logout(): Promise<void> {
-    const { signal } = await import("sigment");
-    const [isAuthenticated, setIsAuthenticated] = signal(
-      GlobalKeys.isAuthenticated
-    );
-    const [user, setUser] = signal(GlobalKeys.user);
-    const [authToken, setAuthToken] = signal(GlobalKeys.authToken);
-
-    // Only update if values have changed to avoid unnecessary re-renders
-    if (isAuthenticated()) {
-      setIsAuthenticated(false as any);
-    }
-    if (user() !== null) {
-      setUser(null as any);
-    }
-    if (authToken() !== "") {
-      setAuthToken("");
-    }
+    setIsAuthenticated(false);
+    setUser(null);
+    setAuthToken("");
+    setShowLoginForm(false);
   }
 
   static async getAuthToken(): Promise<string> {
-    const { signal } = await import("sigment");
-    const [authToken] = signal(GlobalKeys.authToken);
     return authToken();
   }
 }
