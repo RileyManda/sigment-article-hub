@@ -2,6 +2,20 @@
 
 A modern article management platform built with **Sigment**, featuring user authentication, article creation, and a responsive design system.
 
+## 📋 Table of Contents
+
+- [✨ Features](#-features)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [🚀 Quick Start](#-quick-start)
+- [🛠️ Development](#️-development)
+- [🧪 Testing](#-testing)
+- [🗄️ Database](#️-database)
+- [📁 Project Structure](#-project-structure)
+- [🌐 URLs](#-urls)
+- [📚 Documentation](#-documentation)
+- [👨‍💻 Author](#-author)
+- [📄 License](#-license)
+
 ## ✨ Features
 
 * 🯉 **Sigment** — Fine-grained, signals-based reactivity
@@ -41,8 +55,8 @@ A modern article management platform built with **Sigment**, featuring user auth
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **Node.js**: >= 18.0.0
-- **pnpm**: >= 8.0.0
+- **Node.js**: >= 18.0.0(NB: Works well with v22.13.1)s
+- **pnpm**: >= 9.14.2
 - **PostgreSQL**: Database server
 
 ### Installation
@@ -161,6 +175,14 @@ sigment-article-hub/
 - [Sigment Framework](https://sigment.dev)
 - [Prisma Documentation](https://www.prisma.io/docs)
 - [Vitest Testing](https://vitest.dev)
+
+## 👨‍💻 Author
+
+**Riley Manda** - Full Stack Software Engineer
+
+- 🌐 **GitHub**: [@RileyManda](https://github.com/RileyManda)
+- 💼 **LinkedIn**: [rileymanda](https://www.linkedin.com/in/rileymanda/)
+- 🤔 **Stack Overflow**: [RileyManda](https://stackoverflow.com/users/6129553/rileymanda)
 
 ## 📄 License
 
