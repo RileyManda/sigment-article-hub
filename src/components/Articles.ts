@@ -1,4 +1,4 @@
-import { NavigateTo, signal, createEffect } from "sigment";
+import { signal, createEffect } from "sigment";
 import { ApiArticleService } from "../services/apiService";
 import { refreshArticles } from "./global/globalState";
 import type { Article } from "../types";
@@ -31,10 +31,6 @@ function Articles(props: any): HTMLElement {
     loadArticles();
   });
 
-  function handleNavigate() {
-    NavigateTo("/").catch(() => {});
-  }
-
   function formatDate(date: Date): string {
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
@@ -43,9 +39,27 @@ function Articles(props: any): HTMLElement {
     });
   }
 
-  function truncateContent(content: string, maxLength: number = 150): string {
-    if (content.length <= maxLength) return content;
-    return content.substring(0, maxLength) + "...";
+  function formatExcerpt(content: string): string {
+    const sentences = content.split(". ").filter((s) => s.trim().length > 0);
+
+    if (sentences.length >= 2) {
+      const firstSentence = sentences[0] + ".";
+      const secondSentence = sentences[1] + ".";
+      return firstSentence + "\n" + secondSentence;
+    }
+    if (content.length > 100) {
+      const midPoint = Math.floor(content.length / 2);
+      const spaceIndex = content.indexOf(" ", midPoint);
+      if (spaceIndex !== -1) {
+        return (
+          content.substring(0, spaceIndex) +
+          "\n" +
+          content.substring(spaceIndex + 1)
+        );
+      }
+    }
+
+    return content;
   }
 
   return div(
@@ -56,17 +70,13 @@ function Articles(props: any): HTMLElement {
       { class: "articles-header" },
       h1("📚 Articles"),
       p("Discover insights about web development, programming, and technology"),
-      div(
-        { class: "header-actions" },
-        button(
-          { onClick: () => handleNavigate(), class: "back-btn" },
-          "← Back to About"
-        ),
-        button(
-          { onClick: () => loadArticles(), class: "refresh-btn" },
-          "🔄 Refresh"
-        )
-      )
+      () =>
+        !loading() && !error() && articles().length > 0
+          ? div(
+              { class: "articles-count" },
+              `${articles().length} published articles`
+            )
+          : null
     ),
 
     // Loading state
@@ -81,12 +91,6 @@ function Articles(props: any): HTMLElement {
 
       return div(
         { class: "articles-grid" },
-
-        // Articles count
-        div(
-          { class: "articles-count" },
-          `${articles().length} published articles`
-        ),
 
         // Articles
         ...articles().map((article) =>
@@ -124,7 +128,7 @@ function Articles(props: any): HTMLElement {
               h2({ class: "article-title" }, article.title),
 
               // Excerpt
-              p({ class: "article-excerpt" }, truncateContent(article.excerpt)),
+              p({ class: "article-excerpt" }, formatExcerpt(article.excerpt)),
 
               // Author and stats
               div(

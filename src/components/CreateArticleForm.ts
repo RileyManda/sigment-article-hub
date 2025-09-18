@@ -144,14 +144,19 @@ function CreateArticleForm(): HTMLElement {
         },
         div(
           { class: "form-group" },
-          label({ for: "title" }, "Title *"),
+          label({ for: "title" }, "Title * (max 175 characters)"),
           input({
             type: "text",
             id: "title",
             onInput: handleTitleInput,
             required: true,
-            placeholder: "Enter article title",
-          })
+            maxLength: 175,
+            placeholder: "Enter article title (max 175 characters)",
+          }),
+          div(
+            { class: "char-counter" },
+            () => `${title().length}/175 characters`
+          )
         ),
         div(
           { class: "form-group" },
