@@ -79,6 +79,7 @@
   --max-width-lg: 1024px;
   --max-width-xl: 1280px;
   --z-index-dropdown: 1000;
+  --z-index-header: 1010;
   --z-index-sticky: 1020;
   --z-index-fixed: 1030;
   --z-index-modal-backdrop: 1040;
