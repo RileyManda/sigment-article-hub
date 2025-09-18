@@ -5,8 +5,8 @@
 .create-article-page {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  min-height: 60vh;
+  align-items: center;
+  min-height: 100vh;
   padding: var(--spacing-2xl);
   background-color: var(--color-background);
 }
@@ -18,6 +18,18 @@
   width: 100%;
   max-width: 800px;
   overflow: hidden;
+  animation: slideIn var(--transition-smooth);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* Create Article Form Header */
