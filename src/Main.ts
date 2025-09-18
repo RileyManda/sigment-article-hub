@@ -5,6 +5,7 @@ import Body from "./components/Body";
 import Footer from "./components/Footer";
 import LoginForm from "./components/LoginForm";
 import { showLoginForm } from "./components/global/globalState";
+import { AuthService } from "./services/authService";
 import "./assets/css/index.css";
 import Routes from "./router/Routes";
 
@@ -13,6 +14,9 @@ MyApp.setMaxCacheSize(50); // cache 50 components
 MyApp.setRoute(Routes); // set the route map
 
 async function Main() {
+  // Initialize authentication state from localStorage
+  await AuthService.initializeAuth();
+
   const bodyContent = await Body();
 
   const app = div(Header(), () => {

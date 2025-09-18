@@ -4,37 +4,8 @@ import {
   ArticleService,
   CategoryService,
   TagService,
+  UserService,
 } from "../src/services/database";
-// Mock users with database IDs
-const mockUsers = [
-  {
-    id: "cmflpj7mu0000ic9mqc3qwjm2",
-    username: "johndoe",
-    email: "john@example.com",
-    firstName: "John",
-    lastName: "Doe",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    bio: "Full-stack developer passionate about modern web technologies.",
-  },
-  {
-    id: "cmflpj82d0002ic9mvngkbovf",
-    username: "mikejohnson",
-    email: "mike@example.com",
-    firstName: "Mike",
-    lastName: "Johnson",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    bio: "DevOps engineer and cloud architecture specialist.",
-  },
-  {
-    id: "cmflpj7x60001ic9mtwn488g8",
-    username: "janesmith",
-    email: "jane@example.com",
-    firstName: "Jane",
-    lastName: "Smith",
-    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-    bio: "UI/UX designer and frontend enthusiast.",
-  },
-];
 
 const router = express.Router();
 
@@ -55,7 +26,8 @@ router.post("/auth/login", async (req: Request, res: Response) => {
         error: "Email and password are required",
       });
     }
-    const user = mockUsers.find(u => u.email === email);
+    // Validate credentials
+    const user = await UserService.validateCredentials(email, password);
 
     if (!user) {
       return res.status(401).json({
@@ -63,12 +35,9 @@ router.post("/auth/login", async (req: Request, res: Response) => {
         error: "Invalid credentials",
       });
     }
-    if (password !== "password123") {
-      return res.status(401).json({
-        success: false,
-        error: "Invalid credentials",
-      });
-    }
+
+    // Generate jwt session token
+    const token = `prisma-session-${user.id}-${Date.now()}`;
 
     res.json({
       success: true,
@@ -82,7 +51,7 @@ router.post("/auth/login", async (req: Request, res: Response) => {
           avatar: user.avatar,
           bio: user.bio,
         },
-        token: `mock-token-${user.id}`, // Mock JWT token
+        token: token,
       },
       message: "Login successful",
     });
@@ -100,15 +69,17 @@ router.get("/auth/me", async (req: Request, res: Response) => {
   try {
     const token = req.headers.authorization?.replace("Bearer ", "");
 
-    if (!token || !token.startsWith("mock-token-")) {
+    if (!token || !token.startsWith("prisma-session-")) {
       return res.status(401).json({
         success: false,
         error: "Invalid or missing token",
       });
     }
 
-    const userId = token.replace("mock-token-", "");
-    const user = mockUsers.find(u => u.id === userId);
+    // Extract user ID from token
+    const tokenParts = token.split("-");
+    const userId = tokenParts[2];
+    const user = await UserService.findById(userId);
 
     if (!user) {
       return res.status(401).json({
@@ -195,15 +166,16 @@ router.post("/articles", async (req: Request, res: Response) => {
     // Check authentication
     const token = req.headers.authorization?.replace("Bearer ", "");
 
-    if (!token || !token.startsWith("mock-token-")) {
+    if (!token || !token.startsWith("prisma-session-")) {
       return res.status(401).json({
         success: false,
         error: "Authentication required",
       });
     }
 
-    const userId = token.replace("mock-token-", "");
-    const user = mockUsers.find((u) => u.id === userId);
+    const tokenParts = token.split("-");
+    const userId = tokenParts[2];
+    const user = await UserService.findById(userId);
 
     if (!user) {
       return res.status(401).json({
