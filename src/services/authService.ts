@@ -16,7 +16,7 @@ export interface AuthResponse
   extends ApiResponse<{
     user: User;
     token: string;
-  }> {}
+  }> { }
 
 export class AuthService {
   private static readonly API_BASE_URL =
@@ -45,7 +45,7 @@ export class AuthService {
       if (data.success && data.data) {
         // Update global state using imported signals
         setIsAuthenticated(true);
-        setUser(data.data.user as any);
+        setUser(data.data.user);
         setAuthToken(data.data.token);
         setShowLoginForm(false);
 
@@ -149,7 +149,7 @@ export class AuthService {
           const data = await response.json();
           if (data.success && data.data) {
             setIsAuthenticated(true);
-            setUser(data.data.user as any);
+            setUser(data.data.user);
             setAuthToken(authData.token);
             return;
           }

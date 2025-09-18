@@ -1,6 +1,11 @@
 import { signal, createEffect } from "sigment";
 import { ApiArticleService } from "../services/apiService";
-import { refreshArticles } from "./global/globalState";
+import {
+  refreshArticles,
+  isAuthenticated,
+  authToken,
+  user,
+} from "./global/globalState";
 import type { Article } from "../types";
 import "../assets/css/articles.css";
 
@@ -60,6 +65,32 @@ function Articles(props: any): HTMLElement {
     }
 
     return content;
+  }
+
+  async function handleDeleteArticle(articleId: string, articleTitle: string) {
+    const confirmed = confirm(
+      `Are you sure you want to delete "${articleTitle}"? This action cannot be undone.`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await ApiArticleService.deleteArticle(articleId, authToken());
+      // Refresh articles after successful deletion
+      loadArticles();
+    } catch (error) {
+      alert(
+        `Failed to delete article: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
+    }
+  }
+
+  function canDeleteArticle(article: Article): boolean {
+    if (!isAuthenticated() || !user()) return false;
+    const currentUser = user();
+    return currentUser ? currentUser.id === article.author.id : false;
   }
 
   return div(
@@ -164,7 +195,22 @@ function Articles(props: any): HTMLElement {
                     tag.name
                   )
                 )
-              )
+              ),
+
+              () =>
+                canDeleteArticle(article)
+                  ? div(
+                      { class: "article-actions" },
+                      button(
+                        {
+                          class: "delete-btn",
+                          onClick: () =>
+                            handleDeleteArticle(article.id, article.title),
+                        },
+                        "🗑️ Delete Article"
+                      )
+                    )
+                  : null
             )
           )
         )

@@ -75,4 +75,19 @@ export class ApiArticleService {
     const result = await response.json();
     return result.data;
   }
+
+  // DELETE - Delete article by ID
+  static async deleteArticle(articleId: string, authToken: string): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}/articles/${articleId}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete article: ${response.statusText}`);
+    }
+  }
 }
