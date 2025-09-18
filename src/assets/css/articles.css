@@ -48,7 +48,7 @@
     margin: 0 auto;
   padding: var(--spacing-3xl) var(--spacing-xl);
   background: linear-gradient(135deg, var(--color-background) 0%, var(--color-background-light) 100%);
-  min-height: 100vh;
+  min-height: auto;
 }
 
 /* Articles Header */
@@ -521,7 +521,7 @@
     font-size: var(--font-size-sm);
     line-height: 1.6;
     -webkit-line-clamp: 3;
-  }
+    }
 
     .article-footer {
         flex-direction: column;
