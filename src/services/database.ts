@@ -125,10 +125,10 @@ export class ArticleService {
           publishedAt: data.status === "PUBLISHED" ? new Date() : null,
           tags: finalTagIds?.length
             ? {
-                create: finalTagIds.map((tagId: string) => ({
-                  tag: { connect: { id: tagId } },
-                })),
-              }
+              create: finalTagIds.map((tagId: string) => ({
+                tag: { connect: { id: tagId } },
+              })),
+            }
             : undefined,
         },
         include: {
@@ -178,11 +178,11 @@ export class ArticleService {
           ...articleData,
           tags: finalTagIds
             ? {
-                deleteMany: {},
-                create: finalTagIds.map((tagId: string) => ({
-                  tag: { connect: { id: tagId } },
-                })),
-              }
+              deleteMany: {},
+              create: finalTagIds.map((tagId: string) => ({
+                tag: { connect: { id: tagId } },
+              })),
+            }
             : undefined,
         },
         include: {

@@ -19,6 +19,7 @@ model User {
   id        String   @id @default(cuid())
   username  String   @unique
   email     String   @unique
+  password  String   // Simple password field for demo
   firstName String
   lastName  String
   avatar    String?
