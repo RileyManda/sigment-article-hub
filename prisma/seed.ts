@@ -10,6 +10,7 @@ async function main() {
     data: {
       username: "johndoe",
       email: "john@example.com",
+      password: "password123", // Simple password for demo
       firstName: "John",
       lastName: "Doe",
       avatar:
@@ -22,6 +23,7 @@ async function main() {
     data: {
       username: "janesmith",
       email: "jane@example.com",
+      password: "password123", // Simple password for demo
       firstName: "Jane",
       lastName: "Smith",
       avatar:
@@ -34,6 +36,7 @@ async function main() {
     data: {
       username: "mikejohnson",
       email: "mike@example.com",
+      password: "password123", // Simple password for demo
       firstName: "Mike",
       lastName: "Johnson",
       avatar:
