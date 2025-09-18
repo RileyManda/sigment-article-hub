@@ -39,6 +39,29 @@ function Articles(props: any): HTMLElement {
     });
   }
 
+  function formatExcerpt(content: string): string {
+    const sentences = content.split(". ").filter((s) => s.trim().length > 0);
+
+    if (sentences.length >= 2) {
+      const firstSentence = sentences[0] + ".";
+      const secondSentence = sentences[1] + ".";
+      return firstSentence + "\n" + secondSentence;
+    }
+    if (content.length > 100) {
+      const midPoint = Math.floor(content.length / 2);
+      const spaceIndex = content.indexOf(" ", midPoint);
+      if (spaceIndex !== -1) {
+        return (
+          content.substring(0, spaceIndex) +
+          "\n" +
+          content.substring(spaceIndex + 1)
+        );
+      }
+    }
+
+    return content;
+  }
+
   return div(
     { class: "articles-page" },
 
@@ -105,7 +128,7 @@ function Articles(props: any): HTMLElement {
               h2({ class: "article-title" }, article.title),
 
               // Excerpt
-              p({ class: "article-excerpt truncate-4" }, article.excerpt),
+              p({ class: "article-excerpt" }, formatExcerpt(article.excerpt)),
 
               // Author and stats
               div(
