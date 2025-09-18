@@ -1,0 +1,138 @@
+// Prisma schema for Sigment Article Hub
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  email     String   @unique
+  password  String   // Simple password field for demo
+  firstName String
+  lastName  String
+  avatar    String?
+  bio       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  articles Article[]
+  comments Comment[]
+
+  @@map("users")
+}
+
+// Category model
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  color       String?
+  icon        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  articles Article[]
+
+  @@map("categories")
+}
+
+// Tag model
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  color     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  articles ArticleTag[]
+
+  @@map("tags")
+}
+
+// Article model
+model Article {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  content     String        @db.Text
+  excerpt     String
+  coverImage  String?
+  status      ArticleStatus @default(DRAFT)
+  views       Int           @default(0)
+  likes       Int           @default(0)
+  publishedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Foreign keys
+  authorId   String
+  categoryId String
+
+  // Relations
+  author   User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  category Category      @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  tags     ArticleTag[]
+  comments Comment[]
+
+  @@map("articles")
+}
+
+// Many-to-many relation between Article and Tag
+model ArticleTag {
+  id        String @id @default(cuid())
+  articleId String
+  tagId     String
+
+  // Relations
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag     Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, tagId])
+  @@map("article_tags")
+}
+
+// Comment model (supports nested comments)
+model Comment {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  likes     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign keys
+  articleId String
+  authorId  String
+  parentId  String?
+
+  // Relations
+  article Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  author  User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies Comment[] @relation("CommentReplies")
+
+  @@map("comments")
+}
+
+// Enums
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}

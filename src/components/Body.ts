@@ -1,0 +1,16 @@
+import {parsePath,loadRunFunc} from  "sigment"
+import  Routes  from '../router/Routes';
+
+async function Body() : Promise<HTMLElement>  {
+
+  const container = div({class:"body"},'Loading...'); 
+
+  const { componentName, params } = parsePath(Routes);
+  const content = await loadRunFunc(Routes, componentName, params);
+
+  container.replaceChildren(content);
+
+  return container;
+}
+
+export default Body;
