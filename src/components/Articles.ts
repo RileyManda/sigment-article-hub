@@ -56,17 +56,6 @@ function Articles(props: any): HTMLElement {
       { class: "articles-header" },
       h1("📚 Articles"),
       p("Discover insights about web development, programming, and technology"),
-      div(
-        { class: "header-actions" },
-        button(
-          { onClick: () => handleNavigate(), class: "back-btn" },
-          "← Back to About"
-        ),
-        button(
-          { onClick: () => loadArticles(), class: "refresh-btn" },
-          "🔄 Refresh"
-        )
-      )
     ),
 
     // Loading state
