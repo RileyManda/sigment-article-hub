@@ -32,7 +32,7 @@ function Articles(props: any): HTMLElement {
   });
 
   function handleNavigate() {
-    NavigateTo("/").catch(() => {});
+    NavigateTo("/").catch(() => { });
   }
 
   function formatDate(date: Date): string {
@@ -56,6 +56,9 @@ function Articles(props: any): HTMLElement {
       { class: "articles-header" },
       h1("📚 Articles"),
       p("Discover insights about web development, programming, and technology"),
+      () => !loading() && !error() && articles().length > 0
+        ? div({ class: "articles-count" }, `${articles().length} published articles`)
+        : null
     ),
 
     // Loading state
@@ -71,12 +74,6 @@ function Articles(props: any): HTMLElement {
       return div(
         { class: "articles-grid" },
 
-        // Articles count
-        div(
-          { class: "articles-count" },
-          `${articles().length} published articles`
-        ),
-
         // Articles
         ...articles().map((article) =>
           div(
@@ -84,11 +81,11 @@ function Articles(props: any): HTMLElement {
 
             // Cover image
             article.coverImage &&
-              img({
-                src: article.coverImage,
-                alt: article.title,
-                class: "article-cover",
-              }),
+            img({
+              src: article.coverImage,
+              alt: article.title,
+              class: "article-cover",
+            }),
 
             // Article content
             div(
@@ -121,11 +118,11 @@ function Articles(props: any): HTMLElement {
                 div(
                   { class: "author-info" },
                   article.author.avatar &&
-                    img({
-                      src: article.author.avatar,
-                      alt: article.author.firstName,
-                      class: "author-avatar",
-                    }),
+                  img({
+                    src: article.author.avatar,
+                    alt: article.author.firstName,
+                    class: "author-avatar",
+                  }),
                   span(
                     { class: "author-name" },
                     `${article.author.firstName} ${article.author.lastName}`
