@@ -1,5 +1,6 @@
 import { NavigateTo, signal, createEffect } from "sigment";
 import { ApiArticleService } from "../services/apiService";
+import { refreshArticles } from "./global/globalState";
 import type { Article } from "../types";
 import "../assets/css/articles.css";
 
@@ -21,6 +22,12 @@ function Articles(props: any): HTMLElement {
     }
   }
   createEffect(() => {
+    loadArticles();
+  });
+
+  // Listen for refresh signal
+  createEffect(() => {
+    refreshArticles(); // This will trigger when refreshArticles signal changes
     loadArticles();
   });
 
@@ -160,7 +167,7 @@ function Articles(props: any): HTMLElement {
       );
     },
 
-    // Empty state
+    // Empty state:When no articles are found
     () => {
       if (loading() || error() || articles().length > 0) return null;
       return div(
