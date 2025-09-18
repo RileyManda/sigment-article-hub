@@ -4,7 +4,8 @@ import Header from "./components/Header";
 import Body from "./components/Body";
 import Footer from "./components/Footer";
 import LoginForm from "./components/LoginForm";
-import { showLoginForm } from "./components/global/globalState";
+import CreateArticleForm from "./components/CreateArticleForm";
+import { showLoginForm, showCreateArticleForm } from "./components/global/globalState";
 import { AuthService } from "./services/authService";
 import "./assets/css/index.css";
 import Routes from "./router/Routes";
@@ -21,9 +22,12 @@ async function Main() {
 
   const app = div(Header(), () => {
     const shouldShowLogin = showLoginForm();
+    const shouldShowCreateArticle = showCreateArticleForm();
 
     if (shouldShowLogin) {
       return LoginForm();
+    } else if (shouldShowCreateArticle) {
+      return CreateArticleForm();
     } else {
       return div(bodyContent, Footer());
     }
