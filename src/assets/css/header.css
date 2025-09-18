@@ -116,7 +116,8 @@
 .user-menu {
   display: flex;
   align-items: center;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
 }
 
 .user-info {
@@ -161,6 +162,15 @@
 
   .header-right {
     order: 2;
+  }
+
+  .user-menu {
+    gap: var(--spacing-sm);
+  }
+
+  .user-menu .btn {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
   }
 
   .nav-link {
