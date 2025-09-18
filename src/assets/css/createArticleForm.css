@@ -101,6 +101,14 @@
   min-height: 120px;
 }
 
+.char-counter {
+  text-align: right;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--spacing-xs);
+  font-weight: var(--font-weight-medium);
+}
+
 .form-group select {
   cursor: pointer;
 }
