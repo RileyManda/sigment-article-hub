@@ -13,6 +13,31 @@ A modern article management platform built with **Sigment**, featuring user auth
 * 🎨 **Responsive Design** — Modern UI with custom design system
 * 🧪 **Testing** — Vitest with comprehensive test coverage
 
+## 🛠️ Tech Stack
+
+### Frontend
+- **[Sigment](https://sigment.dev)** - Signals-based reactive framework
+- **[Vite](https://vitejs.dev)** - Build tool and dev server
+- **[TypeScript](https://www.typescriptlang.org)** - Type-safe JavaScript
+- **CSS** - Custom design system with CSS variables
+
+### Backend
+- **[Express.js](https://expressjs.com)** - Web framework
+- **[TypeScript](https://www.typescriptlang.org)** - Type-safe JavaScript
+- **[JWT](https://jwt.io)** - Authentication tokens
+- **[bcrypt](https://www.npmjs.com/package/bcrypt)** - Password hashing
+
+### Database
+- **[PostgreSQL](https://www.postgresql.org)** - Relational database
+- **[Prisma](https://www.prisma.io)** - Database ORM and migrations
+- **[Prisma Studio](https://www.prisma.io/studio)** - Database GUI
+
+### Development Tools
+- **[Vitest](https://vitest.dev)** - Testing framework
+- **[jsdom](https://github.com/jsdom/jsdom)** - DOM testing environment
+- **[pnpm](https://pnpm.io)** - Package manager
+- **[Concurrently](https://www.npmjs.com/package/concurrently)** - Run multiple commands
+
 ## 🚀 Quick Start
 
 ### Prerequisites
