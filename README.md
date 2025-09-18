@@ -77,7 +77,7 @@ Create a `.env` file:
 ```bash
 DATABASE_URL="postgresql://username:password@localhost:5432/sigment_articles"
 JWT_SECRET="your-super-secret-jwt-key-here"
-PORT=3001
+PORT=3003
 NODE_ENV=development
 ```
 
@@ -167,7 +167,7 @@ sigment-article-hub/
 ## 🌐 URLs
 
 - **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:3001
+- **Backend API**: http://localhost:3003
 - **Prisma Studio**: http://localhost:5555
 
 ## 📚 Documentation
@@ -183,7 +183,7 @@ sigment-article-hub/
 - 🌐 **GitHub**: [@RileyManda](https://github.com/RileyManda)
 - 💼 **LinkedIn**: [rileymanda](https://www.linkedin.com/in/rileymanda/)
 - 🤔 **Stack Overflow**: [RileyManda](https://stackoverflow.com/users/6129553/rileymanda)
-
+git c
 ## 📄 License
 
 [MIT](./LICENSE)
