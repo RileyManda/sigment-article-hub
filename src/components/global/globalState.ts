@@ -1,4 +1,4 @@
-import { createGlobalSignal, getGlobalSignal } from "sigment";
+import { createGlobalSignal, getGlobalSignal, useGlobalSignal } from "sigment";
 import type { User } from "../../types";
 
 createGlobalSignal("userName", "");
@@ -26,19 +26,9 @@ export const userName = () => {
   return value();
 };
 
-export const setUserName = (value: string) => {
-  const [, setter] = getGlobalSignal(GlobalKeys.userName);
-  setter(value);
-};
-
 export const userMail = () => {
   const [value] = getGlobalSignal(GlobalKeys.userMail);
   return value();
-};
-
-export const setUserMail = (value: string) => {
-  const [, setter] = getGlobalSignal(GlobalKeys.userMail);
-  setter(value);
 };
 
 export const isAuthenticated = () => {
@@ -46,19 +36,9 @@ export const isAuthenticated = () => {
   return value();
 };
 
-export const setIsAuthenticated = (value: boolean) => {
-  const [, setter] = getGlobalSignal(GlobalKeys.isAuthenticated);
-  setter(value);
-};
-
 export const user = () => {
   const [value] = getGlobalSignal(GlobalKeys.user);
   return value();
-};
-
-export const setUser = (value: User | null) => {
-  const [, setter] = getGlobalSignal(GlobalKeys.user);
-  setter(value);
 };
 
 export const authToken = () => {
@@ -66,19 +46,9 @@ export const authToken = () => {
   return value();
 };
 
-export const setAuthToken = (value: string) => {
-  const [, setter] = getGlobalSignal(GlobalKeys.authToken);
-  setter(value);
-};
-
 export const showLoginForm = () => {
   const [value] = getGlobalSignal(GlobalKeys.showLoginForm);
   return value();
-};
-
-export const setShowLoginForm = (value: boolean) => {
-  const [, setter] = getGlobalSignal(GlobalKeys.showLoginForm);
-  setter(value);
 };
 
 export const showCreateArticleForm = () => {
@@ -86,14 +56,44 @@ export const showCreateArticleForm = () => {
   return value();
 };
 
-export const setShowCreateArticleForm = (value: boolean) => {
-  const [, setter] = getGlobalSignal(GlobalKeys.showCreateArticleForm);
-  setter(value);
-};
-
 export const refreshArticles = () => {
   const [value] = getGlobalSignal(GlobalKeys.refreshArticles);
   return value();
+};
+
+export const setUserName = (value: string) => {
+  const [, setter] = getGlobalSignal(GlobalKeys.userName);
+  setter(value);
+};
+
+export const setUserMail = (value: string) => {
+  const [, setter] = getGlobalSignal(GlobalKeys.userMail);
+  setter(value);
+};
+
+export const setIsAuthenticated = (value: boolean) => {
+  const [, setter] = getGlobalSignal(GlobalKeys.isAuthenticated);
+  setter(value);
+};
+
+export const setUser = (value: User | null) => {
+  const [, setter] = getGlobalSignal(GlobalKeys.user);
+  setter(value);
+};
+
+export const setAuthToken = (value: string) => {
+  const [, setter] = getGlobalSignal(GlobalKeys.authToken);
+  setter(value);
+};
+
+export const setShowLoginForm = (value: boolean) => {
+  const [, setter] = getGlobalSignal(GlobalKeys.showLoginForm);
+  setter(value);
+};
+
+export const setShowCreateArticleForm = (value: boolean) => {
+  const [, setter] = getGlobalSignal(GlobalKeys.showCreateArticleForm);
+  setter(value);
 };
 
 export const setRefreshArticles = (value: number) => {
