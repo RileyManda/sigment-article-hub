@@ -8,14 +8,14 @@ import "../assets/css/createArticleForm.css";
 
 // Hardcoded categories:Static category mock selection for drop down
 const CATEGORIES = [
-  { id: "cmfpn5d8g0003icfw7spzzths", name: "Technology", icon: "💻" },
-  { id: "cmfpn5d8l0005icfwqmn0lc1v", name: "Web Development", icon: "🌐" },
+  { id: "cmfwyrjn50003ic4iilf9xyq2", name: "Technology", icon: "💻" },
+  { id: "cmfwyrjng0005ic4itemk420g", name: "Web Development", icon: "🌐" },
   {
-    id: "cmfpn5d8n0006icfwl3yf2cf7",
+    id: "cmfwyrjnk0006ic4i87em4fxu",
     name: "Artificial Intelligence",
     icon: "🤖",
   },
-  { id: "cmfpn5d8j0004icfwz11ydy5f", name: "Design", icon: "🎨" },
+  { id: "cmfwyrjna0004ic4iaxj9lz0b", name: "Design", icon: "🎨" },
 ];
 
 function CreateArticleForm(): HTMLElement {
