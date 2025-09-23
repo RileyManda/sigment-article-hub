@@ -6,7 +6,7 @@ import {
 } from "./global/globalState";
 import "../assets/css/createArticleForm.css";
 
-// Hardcoded categories:For testing purposes
+// Hardcoded categories:Static category mock selection for drop down
 const CATEGORIES = [
   { id: "cmfpn5d8g0003icfw7spzzths", name: "Technology", icon: "💻" },
   { id: "cmfpn5d8l0005icfwqmn0lc1v", name: "Web Development", icon: "🌐" },
@@ -82,7 +82,7 @@ function CreateArticleForm(): HTMLElement {
       if (result.success) {
         setShowCreateArticleForm(false);
         setRefreshArticles(Date.now());
-        NavigateTo("/articles").catch(() => {});
+        NavigateTo("/articles");
       } else {
         throw new Error(result.error || "Failed to create article");
       }
