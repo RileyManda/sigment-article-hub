@@ -11,12 +11,12 @@ import "../assets/css/header.css";
 function Header(): HTMLElement {
   function handleAboutClick(e: Event) {
     e.preventDefault();
-    NavigateTo("/").catch(() => {});
+    NavigateTo("/");
   }
 
   function handleArticlesClick(e: Event) {
     e.preventDefault();
-    NavigateTo("/articles").catch(() => {});
+    NavigateTo("/articles");
   }
 
   function handleCreateArticleClick(e: Event) {
