@@ -25,7 +25,7 @@ async function Main() {
 
   const app = div(
     { class: "app-container" },
-    Header(),
+    () => Header(),
     () => {
       const shouldShowLogin = showLoginForm();
       const shouldShowCreateArticle = showCreateArticleForm();
@@ -38,7 +38,7 @@ async function Main() {
         return bodyContent;
       }
     },
-    Footer()
+    () => Footer()
   );
 
   mount("root", app);
