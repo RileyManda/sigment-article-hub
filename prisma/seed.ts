@@ -1,4 +1,4 @@
-import { PrismaClient, ArticleStatus } from "../src/generated/prisma";
+import { PrismaClient, ArticleStatus } from "../src/generated/prisma/index.js";
 
 const prisma = new PrismaClient();
 
